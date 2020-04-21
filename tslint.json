@@ -1,0 +1,46 @@
+{
+  "extends": [
+    "tslint:latest",
+    "tslint-config-prettier"
+  ],
+  "rules": {
+    "indent": [true, "spaces", 2],
+    "prefer-array-literal": false,
+    "no-default-export": true,
+    "member-access": [
+      true,
+      "no-public"
+    ],
+    "interface-name": false,
+    "no-debugger": false,
+    "no-console": [
+      false,
+      "log"
+    ],
+    "semicolon": [
+      true,
+      "never"
+    ],
+    "radix": true,
+    "no-shadowed-variable": true,
+    "quotemark": [
+      true,
+      "single",
+      "avoid-escape"
+    ],
+    "max-classes-per-file": false,
+    "import-name": false,
+    "object-literal-sort-keys": false,
+    "cyclomatic-complexity": true,
+    "no-implicit-dependencies": false,
+    "no-object-literal-type-assertion": false,
+    "no-empty-interface": false,
+    "ter-arrow-body-style": false,
+    "ordered-imports": false,
+    "no-submodule-imports": [
+      false
+    ],
+    "variable-name": false,
+    "no-unused-expression": true
+  }
+}
