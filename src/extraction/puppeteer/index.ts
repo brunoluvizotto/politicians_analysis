@@ -38,8 +38,8 @@ export const scrape = async (page: Page) => {
     await page.goto('http://www.brunoluvizotto.com.br', {
       waitUntil: 'networkidle0',
     })
-    const websiteHtml = await page.content()
-    logger.log(websiteHtml)
+    // const websiteHtml = await page.content()
+    // logger.log(websiteHtml)
   } catch (err) {
     logger.log(err)
   }

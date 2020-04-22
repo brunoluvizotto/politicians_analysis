@@ -1,11 +1,11 @@
 import { extract } from './extraction'
 import { transform } from './transformation'
 import { load } from './loading'
-import { logger } from './common'
+import { logger, config } from './common'
 
 const run = async () => {
   try {
-    await extract()
+    await extract(config.google)
     transform()
     load()
   } catch (err) {
