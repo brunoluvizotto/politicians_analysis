@@ -1,6 +1,6 @@
 import { Firestore } from '@google-cloud/firestore'
 
-export const connectFirestore = (googleConfig: any) => {
+const connectFirestore = (googleConfig: any) => {
   const db = new Firestore({
     projectId: googleConfig.projectId,
     credentials: googleConfig.credentials,
@@ -8,10 +8,9 @@ export const connectFirestore = (googleConfig: any) => {
   return db
 }
 
-export const getWebsites = (db: Firestore) => {
-  return db.collection('websites').get()
-}
-
-export const getKeywords = (db: Firestore) => {
-  return db.collection('keywords').get()
+export const getFirestoreData = (googleConfig: any) => {
+  const db = connectFirestore(googleConfig)
+  const websites = db.collection('websites').get()
+  const keywords = db.collection('keywords').get()
+  return Promise.all([websites, keywords])
 }
