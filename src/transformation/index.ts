@@ -1,5 +1,9 @@
-import { logger } from '../common'
+import { analyseData } from './language'
+import { IWebsiteMatch } from '../common'
 
-export const transform = () => {
-  logger.log('Transforming...')
+export const transform = async (
+  websiteMatches: IWebsiteMatch[],
+  googleConfig: any
+) => {
+  await analyseData(websiteMatches, googleConfig)
 }

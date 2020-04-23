@@ -20,7 +20,7 @@ const getMatchObject = (
     if (keywordMatches.length) {
       matchObject.push({
         keyword,
-        matches: keywordMatches,
+        headlines: keywordMatches,
       })
     }
   }
