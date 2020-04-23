@@ -1,7 +1,5 @@
 import puppeteer, { Browser, Page } from 'puppeteer'
 
-import { logger } from '../../common'
-
 const PUPPETEER_OPTIONS = {
   headless: true,
   args: [
@@ -12,8 +10,6 @@ const PUPPETEER_OPTIONS = {
     '--no-sandbox',
     '--no-zygote',
     '--single-process',
-    "--proxy-server='direct://'",
-    '--proxy-bypass-list=*',
     '--deterministic-fetch',
   ],
 }
@@ -31,16 +27,4 @@ export const openConnection = async () => {
 export const closeConnection = async (page: Page, browser: Browser) => {
   page && (await page.close())
   browser && (await browser.close())
-}
-
-export const scrape = async (page: Page) => {
-  try {
-    await page.goto('http://www.brunoluvizotto.com.br', {
-      waitUntil: 'networkidle0',
-    })
-    // const websiteHtml = await page.content()
-    // logger.log(websiteHtml)
-  } catch (err) {
-    logger.log(err)
-  }
 }

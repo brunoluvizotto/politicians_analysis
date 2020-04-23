@@ -5,7 +5,8 @@ import { logger, config } from './common'
 
 const run = async () => {
   try {
-    await extract(config.google)
+    const websiteMatches = await extract(config.google)
+    logger.log(websiteMatches)
     transform()
     load()
   } catch (err) {

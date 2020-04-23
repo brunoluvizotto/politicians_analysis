@@ -5,6 +5,9 @@
   "main": "index.js",
   "author": "Bruno Luvizotto / Danilo Luvizotto",
   "license": "MIT",
+  "engines": {
+    "node": ">=12.13.0"
+  },
   "scripts": {
     "clean": "rm -rf dist",
     "build": "yarn clean && tsc && yarn copy",
@@ -14,10 +17,11 @@
     "test": "yarn build && env-cmd -e test ava",
     "lint": "eslint . --ext .ts",
     "lint-fix": "yarn lint --fix",
-    "prettier-fix": "prettier --write --check 'src/**/*.ts'"
+    "prettier-fix": "prettier --write --check 'src/**/*.ts'",
+    "v": "node -v"
   },
   "devDependencies": {
-    "@types/node": "^13.13.1",
+    "@types/node": "^13.13.2",
     "@types/puppeteer": "^2.0.1",
     "@typescript-eslint/eslint-plugin": "^2.29.0",
     "@typescript-eslint/parser": "^2.29.0",
@@ -35,7 +39,7 @@
   "dependencies": {
     "@google-cloud/firestore": "^3.7.4",
     "@google-cloud/language": "^4.0.0",
-    "puppeteer": "^3.0.0",
+    "puppeteer": "^2.0.0",
     "tracer": "^1.0.3"
   }
 }
