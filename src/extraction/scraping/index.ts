@@ -11,7 +11,8 @@ const getMatchObject = (
   for (const keyword of keywords) {
     const keywordMatches = []
     for (const match of matches) {
-      const trimmedMatch = match[2].trim().replace('<br>', '')
+      const re = new RegExp('<.*?>', 'gm')
+      const trimmedMatch = match[2].trim().replace(re, ' ')
       if (trimmedMatch.indexOf(keyword) >= 0) {
         keywordMatches.push({
           text: trimmedMatch,
