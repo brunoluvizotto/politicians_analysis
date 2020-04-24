@@ -40,6 +40,7 @@
     "@google-cloud/firestore": "^3.7.4",
     "@google-cloud/language": "^4.0.0",
     "@google-cloud/translate": "^5.3.0",
+    "axios": "^0.19.2",
     "puppeteer": "^2.0.0",
     "tracer": "^1.0.3"
   }

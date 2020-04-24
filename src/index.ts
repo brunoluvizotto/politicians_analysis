@@ -6,7 +6,12 @@ import { logger, config } from './common'
 const run = async () => {
   try {
     const websiteMatches = await extract(config.google)
-    /*const analysedData = */ await transform(websiteMatches, config.google)
+    const analysedData = await transform(
+      websiteMatches,
+      config.google,
+      config.azure
+    )
+    logger.log(analysedData)
     load()
   } catch (err) {
     logger.error(err)

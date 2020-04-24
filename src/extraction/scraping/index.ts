@@ -13,7 +13,9 @@ const getMatchObject = (
     for (const match of matches) {
       const trimmedMatch = match[2].trim().replace('<br>', '')
       if (trimmedMatch.indexOf(keyword) >= 0) {
-        keywordMatches.push(trimmedMatch)
+        keywordMatches.push({
+          text: trimmedMatch,
+        })
       }
     }
 
