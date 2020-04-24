@@ -15,7 +15,7 @@ export const load = async (
   for (const analysedMatch of analysedMatches) {
     for (const match of analysedMatch.matches) {
       for (const headline of match.headlines) {
-        insertSentimentIfNotOnline(
+        await insertSentimentIfNotOnline(
           db,
           headline,
           match,

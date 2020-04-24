@@ -116,7 +116,7 @@ export const updateSentiment = async (
     onlineEndDate.getTime() - onlineStartDate.getTime()
   )
   const docRef = snapshot.docs[0].ref
-  docRef.update({
+  await docRef.update({
     isOnline: false,
     onlineEndDate,
     onlineTotalTimeMS,
