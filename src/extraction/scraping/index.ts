@@ -3,6 +3,12 @@ import { Page } from 'puppeteer'
 import { openConnection } from './connection'
 import { logger } from '../../common'
 
+const removeDuplicates = (arr: any[]) => {
+  return arr.filter(
+    (a, b) => arr.findIndex((elem) => elem.headline === a.headline) === b
+  )
+}
+
 const removeItemOnce = (arr: any[], value: any) => {
   arr.splice(
     arr.findIndex(
@@ -62,7 +68,7 @@ const getMatchObject = (
       }
     }
   }
-  return matchObject
+  return removeDuplicates(matchObject)
 }
 
 const scrapeWebsite = async (
