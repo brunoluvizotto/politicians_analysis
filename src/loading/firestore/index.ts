@@ -33,50 +33,6 @@ export const insertSentiment = (
   })
 }
 
-const removeItemOnce = (arr: any[], value: any) => {
-  arr.splice(
-    arr.findIndex(
-      (v) => v.headline === value.headline && v.website === value.website
-    ),
-    1
-  )
-  return arr
-}
-
-export const insertSentimentIfNotOnline = async (
-  db: Firestore,
-  headline: string,
-  headlineEnglish: string,
-  keywords: string[],
-  sentiment: any,
-  website: string,
-  onlineSentiments: any[]
-) => {
-  const isOnline =
-    onlineSentiments.filter((onlineSentiment) => {
-      return (
-        onlineSentiment.headline === headline &&
-        onlineSentiment.website === website
-      )
-    }).length > 0
-  if (isOnline) {
-    removeItemOnce(onlineSentiments, {
-      headline,
-      website,
-    })
-    return
-  }
-  await insertSentiment(
-    db,
-    headline,
-    headlineEnglish,
-    keywords,
-    sentiment.magnitude,
-    sentiment.score,
-    website
-  )
-}
-
 export const updateSentiment = async (
   db: Firestore,
   headline: string,

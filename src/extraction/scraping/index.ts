@@ -3,6 +3,16 @@ import { Page } from 'puppeteer'
 import { openConnection } from './connection'
 import { logger } from '../../common'
 
+const removeItemOnce = (arr: any[], value: any) => {
+  arr.splice(
+    arr.findIndex(
+      (v) => v.headline === value.headline && v.website === value.website
+    ),
+    1
+  )
+  return arr
+}
+
 const checkIfHeadlineIsOnline = (
   match: any,
   websiteName: string,
@@ -33,7 +43,12 @@ const getMatchObject = (
   for (const match of matchesArray) {
     const cleanedMatch = cleanMatch(match)
     const keywordsMatched = []
-    if (!checkIfHeadlineIsOnline(cleanedMatch, websiteName, onlineSentiments)) {
+    if (checkIfHeadlineIsOnline(cleanedMatch, websiteName, onlineSentiments)) {
+      removeItemOnce(onlineSentiments, {
+        headline: cleanedMatch,
+        website: websiteName,
+      })
+    } else {
       for (const keyword of keywords) {
         if (cleanedMatch.indexOf(keyword) >= 0) {
           keywordsMatched.push(keyword)
