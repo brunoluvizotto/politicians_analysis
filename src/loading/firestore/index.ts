@@ -10,23 +10,6 @@ export const connectFirestore = (googleConfig: any) => {
   return db
 }
 
-export const getOnlineHeadlines = async (db: Firestore) => {
-  const sentimentsRef = db.collection('sentiments')
-  const snapshot = await sentimentsRef.where('isOnline', '==', true).get()
-  if (snapshot.empty) {
-    return []
-  }
-
-  const onlineHeadlinesText = snapshot.docs.map((doc) => {
-    const data = doc.data()
-    return {
-      text: data.headline,
-      website: data.website,
-    }
-  })
-  return onlineHeadlinesText
-}
-
 export const insertSentiment = (
   db: Firestore,
   headline: string,
