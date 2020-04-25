@@ -11,13 +11,11 @@ export const transform = async (
 
   for (const websiteMatch of websiteMatches) {
     for (const match of websiteMatch.matches) {
-      for (const headline of match.headlines) {
-        const res = await translate(headline.text, 'pt', 'en', azureConfig)
-        const translation = res.data[0]['translations'][0]['text']
-        const sentiment = await analyseSentiment(client, translation)
-        headline.translation = translation
-        headline.sentiment = sentiment
-      }
+      const res = await translate(match.headline, 'pt', 'en', azureConfig)
+      const translation = res.data[0]['translations'][0]['text']
+      const sentiment = await analyseSentiment(client, translation)
+      match.translation = translation
+      match.sentiment = sentiment
     }
   }
 

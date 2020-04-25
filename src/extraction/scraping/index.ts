@@ -7,23 +7,21 @@ const getMatchObject = (
   keywords: string[],
   matches: IterableIterator<RegExpMatchArray>
 ) => {
+  const matchesArray = Array.from(matches)
   const matchObject = []
-  for (const keyword of keywords) {
-    const keywordMatches = []
-    for (const match of matches) {
-      const re = new RegExp('<.*?>', 'gm')
-      const trimmedMatch = match[2].trim().replace(re, ' ')
+  for (const match of matchesArray) {
+    const re = new RegExp('<.*?>', 'gm')
+    const trimmedMatch = match[2].trim().replace(re, ' ')
+    const keywordsMatched = []
+    for (const keyword of keywords) {
       if (trimmedMatch.indexOf(keyword) >= 0) {
-        keywordMatches.push({
-          text: trimmedMatch,
-        })
+        keywordsMatched.push(keyword)
       }
     }
-
-    if (keywordMatches.length) {
+    if (keywordsMatched.length) {
       matchObject.push({
-        keyword,
-        headlines: keywordMatches,
+        keywords: keywordsMatched,
+        headline: trimmedMatch,
       })
     }
   }
@@ -54,7 +52,7 @@ const scrapeWebsite = async (
 }
 
 export const scrape = async (websiteDocs: any[], keywords: string[]) => {
-  logger.info('Starting to scrape websites')
+  logger.info('Starting websites scraping')
   const { page } = await openConnection()
 
   const websiteMatches = []

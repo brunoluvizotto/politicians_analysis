@@ -1,6 +1,6 @@
 import { Firestore } from '@google-cloud/firestore'
 
-import { logger, IWebsiteMatch } from '../../common'
+import { logger } from '../../common'
 
 export const connectFirestore = (googleConfig: any) => {
   const db = new Firestore({
@@ -31,7 +31,7 @@ export const insertSentiment = (
   db: Firestore,
   headline: string,
   headlineEnglish: string,
-  keyword: string,
+  keywords: string[],
   sentimentMagnitude: number,
   sentimentScore: number,
   website: string
@@ -42,7 +42,7 @@ export const insertSentiment = (
     headline,
     headlineEnglish,
     isOnline: true,
-    keyword,
+    keywords,
     sentimentMagnitude,
     sentimentScore,
     website,
@@ -60,33 +60,34 @@ const removeItemOnce = (arr: any[], value: any) => {
 
 export const insertSentimentIfNotOnline = async (
   db: Firestore,
-  headline: any,
-  match: any,
-  analysedMatch: IWebsiteMatch,
+  headline: string,
+  headlineEnglish: string,
+  keywords: string[],
+  sentiment: any,
+  website: string,
   onlineHeadlines: any[]
 ) => {
   const isOnline =
     onlineHeadlines.filter((onlineHeadline) => {
       return (
-        onlineHeadline.text === headline.text &&
-        onlineHeadline.website === analysedMatch.websiteName
+        onlineHeadline.text === headline && onlineHeadline.website === website
       )
     }).length > 0
   if (isOnline) {
     removeItemOnce(onlineHeadlines, {
-      text: headline.text,
-      website: analysedMatch.websiteName,
+      text: headline,
+      website: website,
     })
     return
   }
   await insertSentiment(
     db,
-    headline.text,
-    headline.translation,
-    match.keyword,
-    headline.sentiment.magnitude,
-    headline.sentiment.score,
-    analysedMatch.websiteName
+    headline,
+    headlineEnglish,
+    keywords,
+    sentiment.magnitude,
+    sentiment.score,
+    website
   )
 }
 

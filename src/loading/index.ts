@@ -14,15 +14,15 @@ export const load = async (
   const onlineHeadlines = await getOnlineHeadlines(db)
   for (const analysedMatch of analysedMatches) {
     for (const match of analysedMatch.matches) {
-      for (const headline of match.headlines) {
-        await insertSentimentIfNotOnline(
-          db,
-          headline,
-          match,
-          analysedMatch,
-          onlineHeadlines
-        )
-      }
+      await insertSentimentIfNotOnline(
+        db,
+        match.headline,
+        match.translation,
+        match.keywords,
+        match.sentiment,
+        analysedMatch.websiteName,
+        onlineHeadlines
+      )
     }
   }
 
