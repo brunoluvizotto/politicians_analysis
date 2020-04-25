@@ -5,13 +5,13 @@ import { logger, config } from './common'
 
 const run = async () => {
   try {
-    const websiteMatches = await extract(config.google)
+    const { websiteMatches, onlineSentiments } = await extract(config.google)
     const analysedData = await transform(
       websiteMatches,
       config.google,
       config.azure
     )
-    await load(analysedData, config.google)
+    await load(analysedData, onlineSentiments, config.google)
   } catch (err) {
     logger.error(err)
     process.exit(-1)

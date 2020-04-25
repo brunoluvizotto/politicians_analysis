@@ -1,6 +1,5 @@
 import {
   connectFirestore,
-  getOnlineHeadlines,
   insertSentimentIfNotOnline,
   updateSentiment,
 } from './firestore'
@@ -8,10 +7,10 @@ import { IWebsiteMatch } from '../common'
 
 export const load = async (
   analysedMatches: IWebsiteMatch[],
+  onlineSentiments: any[],
   googleConfig: any
 ) => {
   const db = connectFirestore(googleConfig)
-  const onlineHeadlines = await getOnlineHeadlines(db)
   for (const analysedMatch of analysedMatches) {
     for (const match of analysedMatch.matches) {
       await insertSentimentIfNotOnline(
@@ -21,12 +20,12 @@ export const load = async (
         match.keywords,
         match.sentiment,
         analysedMatch.websiteName,
-        onlineHeadlines
+        onlineSentiments
       )
     }
   }
 
-  for (const onlineHeadline of onlineHeadlines) {
-    await updateSentiment(db, onlineHeadline.text, onlineHeadline.website)
+  for (const onlineSentiment of onlineSentiments) {
+    await updateSentiment(db, onlineSentiment.headline, onlineSentiment.website)
   }
 }

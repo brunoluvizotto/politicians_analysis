@@ -52,7 +52,9 @@ export const insertSentiment = (
 
 const removeItemOnce = (arr: any[], value: any) => {
   arr.splice(
-    arr.findIndex((v) => v.text === value.text && v.website === value.website),
+    arr.findIndex(
+      (v) => v.headline === value.headline && v.website === value.website
+    ),
     1
   )
   return arr
@@ -65,18 +67,19 @@ export const insertSentimentIfNotOnline = async (
   keywords: string[],
   sentiment: any,
   website: string,
-  onlineHeadlines: any[]
+  onlineSentiments: any[]
 ) => {
   const isOnline =
-    onlineHeadlines.filter((onlineHeadline) => {
+    onlineSentiments.filter((onlineSentiment) => {
       return (
-        onlineHeadline.text === headline && onlineHeadline.website === website
+        onlineSentiment.headline === headline &&
+        onlineSentiment.website === website
       )
     }).length > 0
   if (isOnline) {
-    removeItemOnce(onlineHeadlines, {
-      text: headline,
-      website: website,
+    removeItemOnce(onlineSentiments, {
+      headline,
+      website,
     })
     return
   }

@@ -8,9 +8,26 @@ const connectFirestore = (googleConfig: any) => {
   return db
 }
 
-export const getFirestoreData = (googleConfig: any) => {
+export const getFirestoreData = async (googleConfig: any) => {
   const db = connectFirestore(googleConfig)
-  const websites = db.collection('websites').get()
-  const keywords = db.collection('keywords').get()
-  return Promise.all([websites, keywords])
+  const websitesSnapshot = await db.collection('websites').get()
+  const keywordsSnapshot = await db.collection('keywords').get()
+  const sentimentsSnapshot = await db
+    .collection('sentiments')
+    .where('isOnline', '==', true)
+    .get()
+
+  const websites = websitesSnapshot.docs.map((doc) => ({
+    id: doc.id,
+    data: doc.data(),
+  }))
+  const keywords = keywordsSnapshot.docs.map((doc) => doc.data().value)
+  const onlineSentiments = sentimentsSnapshot.docs.map((doc) => {
+    const { headline, website } = doc.data()
+    return {
+      headline,
+      website,
+    }
+  })
+  return { websites, keywords, onlineSentiments }
 }
