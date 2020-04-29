@@ -46,11 +46,12 @@ const getMatchObject = (
 ) => {
   const matchesArray = Array.from(matches)
   const matchObject = []
+  const onlineSentimentsToBeRemoved = []
   for (const match of matchesArray) {
     const cleanedMatch = cleanMatch(match)
     const keywordsMatched = []
     if (checkIfHeadlineIsOnline(cleanedMatch, websiteName, onlineSentiments)) {
-      removeItemOnce(onlineSentiments, {
+      onlineSentimentsToBeRemoved.push({
         headline: cleanedMatch,
         website: websiteName,
       })
@@ -68,6 +69,9 @@ const getMatchObject = (
       }
     }
   }
+  onlineSentimentsToBeRemoved.forEach((sentiment) => {
+    removeItemOnce(onlineSentiments, sentiment)
+  })
   return removeDuplicates(matchObject)
 }
 
