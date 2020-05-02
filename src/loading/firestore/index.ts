@@ -41,6 +41,7 @@ export const updateSentiment = async (
   logger.log(`Updating sentiment: ${website} | ${headline}`)
   const sentimentsRef = db.collection('sentiments')
   const snapshot = await sentimentsRef
+    .where('isOnline', '==', true)
     .where('website', '==', website)
     .where('headline', '==', headline)
     .get()
@@ -49,19 +50,23 @@ export const updateSentiment = async (
     logger.log(`Could not find sentiment: ${website} | ${headline}`)
   }
 
-  const docData = snapshot.docs[0].data()
-  const onlineStartDate = new Date(
-    docData.onlineStartDate._seconds * 1000 +
-      docData.onlineStartDate._nanoseconds / 1000000
+  await Promise.all(
+    snapshot.docs.map(async (doc) => {
+      const docData = doc.data()
+      const onlineStartDate = new Date(
+        docData.onlineStartDate._seconds * 1000 +
+          docData.onlineStartDate._nanoseconds / 1000000
+      )
+      const onlineEndDate = new Date()
+      const onlineTotalTimeMS = Math.abs(
+        onlineEndDate.getTime() - onlineStartDate.getTime()
+      )
+      const docRef = doc.ref
+      return await docRef.update({
+        isOnline: false,
+        onlineEndDate,
+        onlineTotalTimeMS,
+      })
+    })
   )
-  const onlineEndDate = new Date()
-  const onlineTotalTimeMS = Math.abs(
-    onlineEndDate.getTime() - onlineStartDate.getTime()
-  )
-  const docRef = snapshot.docs[0].ref
-  await docRef.update({
-    isOnline: false,
-    onlineEndDate,
-    onlineTotalTimeMS,
-  })
 }
