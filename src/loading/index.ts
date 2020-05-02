@@ -2,13 +2,13 @@ import { connectFirestore, insertSentiment, updateSentiment } from './firestore'
 import { IWebsiteMatch } from '../common'
 
 export const load = async (
-  analysedMatches: IWebsiteMatch[],
+  analyzedMatches: IWebsiteMatch[],
   onlineSentiments: any[],
   googleConfig: any
 ) => {
   const db = connectFirestore(googleConfig)
-  for (const analysedMatch of analysedMatches) {
-    for (const match of analysedMatch.matches) {
+  for (const analyzedMatch of analyzedMatches) {
+    for (const match of analyzedMatch.matches) {
       await insertSentiment(
         db,
         match.headline,
@@ -16,7 +16,7 @@ export const load = async (
         match.keywords,
         match.sentiment.magnitude,
         match.sentiment.score,
-        analysedMatch.websiteName
+        analyzedMatch.websiteName
       )
     }
   }

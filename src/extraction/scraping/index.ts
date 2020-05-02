@@ -34,8 +34,9 @@ const checkIfHeadlineIsOnline = (
 }
 
 const cleanMatch = (match: any[]) => {
-  const re = new RegExp('<.*?>', 'gm')
-  return match[2].trim().replace(re, ' ')
+  const reQuote = new RegExp('&amp;#x27;', 'gm')
+  const reTags = new RegExp('<.*?>', 'gm')
+  return match[2].trim().replace(reQuote, "'").replace(reTags, ' ')
 }
 
 const getMatchObject = (
