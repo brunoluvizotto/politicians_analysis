@@ -4,9 +4,7 @@ import { openConnection } from './connection'
 import { logger } from '../../common'
 
 const removeDuplicates = (arr: any[]) => {
-  return arr.filter(
-    (a, b) => arr.findIndex((elem) => elem.headline === a.headline) === b
-  )
+  return arr.filter((a, b) => arr.findIndex((elem) => elem === a) === b)
 }
 
 const removeItemOnce = (arr: any[], value: any) => {
@@ -35,8 +33,13 @@ const checkIfHeadlineIsOnline = (
 
 const cleanMatch = (match: any[]) => {
   const reQuote = new RegExp('&amp;#x27;', 'gm')
+  const reDoubleQuote = new RegExp('&amp;quot;', 'gm')
   const reTags = new RegExp('<.*?>', 'gm')
-  return match[2].trim().replace(reQuote, "'").replace(reTags, ' ')
+  return match[2]
+    .replace(reQuote, "'")
+    .replace(reDoubleQuote, '"')
+    .replace(reTags, ' ')
+    .trim()
 }
 
 const getMatchObject = (
@@ -47,32 +50,31 @@ const getMatchObject = (
 ) => {
   const matchesArray = Array.from(matches)
   const matchObject = []
-  const onlineSentimentsToBeRemoved = []
-  for (const match of matchesArray) {
-    const cleanedMatch = cleanMatch(match)
+
+  const cleanedMatches = matchesArray.map((match) => cleanMatch(match))
+  const deduplicatedMatches = removeDuplicates(cleanedMatches)
+
+  for (const match of deduplicatedMatches) {
     const keywordsMatched = []
-    if (checkIfHeadlineIsOnline(cleanedMatch, websiteName, onlineSentiments)) {
-      onlineSentimentsToBeRemoved.push({
-        headline: cleanedMatch,
+    if (checkIfHeadlineIsOnline(match, websiteName, onlineSentiments)) {
+      removeItemOnce(onlineSentiments, {
+        headline: match,
         website: websiteName,
       })
     } else {
       for (const keyword of keywords) {
-        if (cleanedMatch.indexOf(keyword) >= 0) {
+        if (match.indexOf(keyword) >= 0) {
           keywordsMatched.push(keyword)
         }
       }
       if (keywordsMatched.length) {
         matchObject.push({
           keywords: keywordsMatched,
-          headline: cleanedMatch,
+          headline: match,
         })
       }
     }
   }
-  onlineSentimentsToBeRemoved.forEach((sentiment) => {
-    removeItemOnce(onlineSentiments, sentiment)
-  })
   return removeDuplicates(matchObject)
 }
 

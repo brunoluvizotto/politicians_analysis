@@ -11,7 +11,7 @@ const run = async () => {
       config.google,
       config.azure
     )
-    await load(analyzedData, onlineSentiments, config.google)
+    await load(analyzedData, onlineSentiments, config.google, config.env)
   } catch (err) {
     logger.error(err)
     process.exit(-1)
