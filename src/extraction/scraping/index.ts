@@ -112,23 +112,33 @@ export const scrape = async (
   onlineSentiments: any[]
 ) => {
   logger.info('Starting websites scraping')
-  const { page } = await openConnection()
 
   const websiteMatches = []
   for (const website of websites) {
-    const match = await scrapeWebsite(
-      page,
-      website.data.name,
-      website.data.url,
-      website.data.regex,
-      keywords,
-      onlineSentiments
-    )
-    websiteMatches.push({
-      websiteName: website.data.name,
-      websiteId: website.id,
-      matches: match,
-    })
+    for (let i = 0; i <= 3; i++) {
+      try {
+        const { page } = await openConnection()
+        const match = await scrapeWebsite(
+          page,
+          website.data.name,
+          website.data.url,
+          website.data.regex,
+          keywords,
+          onlineSentiments
+        )
+        websiteMatches.push({
+          websiteName: website.data.name,
+          websiteId: website.id,
+          matches: match,
+        })
+        break
+      } catch (err) {
+        if (i === 3) {
+          throw err
+        }
+        logger.info(`Fetching ${website}... retry ${i + 1} failed`)
+      }
+    }
   }
   return websiteMatches
 }
