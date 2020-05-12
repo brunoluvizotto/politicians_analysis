@@ -12,7 +12,7 @@ def extract():
     docs = []
     for website in websites:
         docs.append(website.to_dict())
-    websites_names = list(map(lambda x: x["name"], docs))
+    websites_names = list(set(map(lambda x: x["name"], docs)))
 
     docs = []
     for offline_sentiment in offline_sentiments:

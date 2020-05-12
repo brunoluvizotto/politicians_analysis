@@ -34,10 +34,12 @@ const checkIfHeadlineIsOnline = (
 const cleanMatch = (match: any[]) => {
   const reQuote = new RegExp('&amp;#x27;', 'gm')
   const reDoubleQuote = new RegExp('&amp;quot;', 'gm')
+  const reSpace = new RegExp('&nbsp;', 'gm')
   const reTags = new RegExp('<.*?>', 'gm')
   return match[2]
     .replace(reQuote, "'")
     .replace(reDoubleQuote, '"')
+    .replace(reSpace, '"')
     .replace(reTags, ' ')
     .trim()
 }
