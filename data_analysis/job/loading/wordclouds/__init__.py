@@ -1,5 +1,6 @@
 import os
 import re
+import logging
 import multidict
 import matplotlib.pyplot as plt
 import numpy as np
@@ -29,9 +30,12 @@ def save_wordcloud(text, filename, max_words, min_frequency=0):
     mask = 255 * mask.astype(int)
     wc = WordCloud(background_color="white", max_words=max_words, mask=mask)
     text = _getFrequencyDictForText(text, min_frequency)
-    wc.generate_from_frequencies(text)
-    plt.figure()
-    plt.imshow(wc, interpolation="bilinear")
-    plt.axis("off")
-    plt.savefig(f"{module_path}/../../../output/{filename}")
-    plt.close()
+    try:
+        wc.generate_from_frequencies(text)
+        plt.figure()
+        plt.imshow(wc, interpolation="bilinear")
+        plt.axis("off")
+        plt.savefig(f"{module_path}/../../../output/{filename}")
+        plt.close()
+    except Exception as exc:
+        logging.error(exc)
