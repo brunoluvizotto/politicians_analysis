@@ -20,6 +20,6 @@ def load(sentiments_dict, websites):
         for sentiment in ["all", "positive", "negative", "neutral"]:
             for keyword in keywords:
                 save_wordcloud(sentiments_dict[sentiment][keyword]["wordclouds"][website],
-                               f"{keyword}_wordcloud_{sentiment}_{website.lower()}.png", 25)
+                               f"{keyword}_wordcloud_{sentiment}_{website.lower()}.png", 40)
                 save_wordcloud(sentiments_dict[sentiment][keyword]["wordclouds_english"][website],
-                               f"{keyword}_wordcloud_{sentiment}_{website.lower()}_english.png", 25)
+                               f"{keyword}_wordcloud_{sentiment}_{website.lower()}_english.png", 40)

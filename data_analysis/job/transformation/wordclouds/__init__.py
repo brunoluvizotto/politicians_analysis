@@ -21,7 +21,8 @@ pt_stop_words = ["de", "a", "o", "que", "e", "do", "da", "em", "um", "para", "é
                  "tínhamos", "tinham", "tive", "teve", "tivemos", "tiveram", "tivera", "tivéramos", "tenha", "tenhamos",
                  "tenham", "tivesse", "tivéssemos", "tivessem", "tiver", "tivermos", "tiverem", "terei", "terá", "teremos",
                  "terão", "teria", "teríamos", "teriam", "diz", "vai", "lugar", "Fala", "após", "fico", "ver", "outras",
-                 "agora", "falar", "dar", "sobre", "dá", "novo"]
+                 "agora", "falar", "dar", "sobre", "dá", "novo", "vê", "disse", "dizem", "s", "chama", "fazem", "usa", 
+                 "deve", "mostra", "faz", "fazer"]
 en_stop_words = ["a", "the", "an", "to", "in", "for", "of", "or", "by", "with", "is", "on", "that", "be", "he", "has", "was",
                  "say", "more", "gives", "s", "de", "from", "had", "have", "but", "not", "than", "doesnt", "when", "should",
                  "will", "new", "says", "whom", "goes", "did", "can", "it", "what", "would", "his"]
