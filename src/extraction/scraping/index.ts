@@ -10,7 +10,9 @@ const removeDuplicates = (arr: any[]) => {
 const removeItemOnce = (arr: any[], value: any) => {
   arr.splice(
     arr.findIndex(
-      (v) => v.headline === value.headline && v.website === value.website
+      (v) =>
+        v.headlinePortuguese === value.headlinePortuguese &&
+        v.website === value.website
     ),
     1
   )
@@ -25,7 +27,7 @@ const checkIfHeadlineIsOnline = (
   return (
     onlineSentiments.filter(
       (onlineSentiment) =>
-        onlineSentiment.headline === match &&
+        onlineSentiment.headlinePortuguese === match &&
         onlineSentiment.website === websiteName
     ).length > 0
   )
@@ -60,7 +62,7 @@ const getMatchObject = (
     const keywordsMatched = []
     if (checkIfHeadlineIsOnline(match, websiteName, onlineSentiments)) {
       removeItemOnce(onlineSentiments, {
-        headline: match,
+        headlinePortuguese: match,
         website: websiteName,
       })
     } else {
@@ -72,7 +74,7 @@ const getMatchObject = (
       if (keywordsMatched.length) {
         matchObject.push({
           keywords: keywordsMatched,
-          headline: match,
+          headlinePortuguese: match,
         })
       }
     }

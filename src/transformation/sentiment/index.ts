@@ -13,12 +13,16 @@ export const getLanguageClient = (googleConfig: any) => {
   return client
 }
 
-export const analyzeSentiment = async (client: any, headline: string) => {
+export const analyzeSentiment = async (
+  client: any,
+  headline: string,
+  language: string
+) => {
   logger.log(`Analysing headline: ${headline}`)
   const document = {
     content: headline,
     type: Document.Type.PLAIN_TEXT,
-    language: 'en',
+    language,
   }
   const [result] = await client.analyzeSentiment({ document: document })
   const sentiment = result.documentSentiment

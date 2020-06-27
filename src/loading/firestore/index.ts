@@ -13,24 +13,32 @@ export const connectFirestore = (googleConfig: any) => {
 
 export const insertSentiment = (
   db: Firestore,
-  headline: string,
+  headlinePortuguese: string,
   headlineEnglish: string,
+  sentimentPortuguese: {
+    magnitude: number
+    score: number
+  },
+  sentimentEnglish: {
+    magnitude: number
+    score: number
+  },
   keywords: string[],
-  sentimentMagnitude: number,
-  sentimentScore: number,
   website: string,
   env: string
 ): Promise<FirebaseFirestore.WriteResult> | void => {
-  logger.log(`Inserting sentiment: ${website} | ${headline}`)
+  logger.log(`Inserting sentiment: ${website} | ${headlinePortuguese}`)
   if (env === Mode.PROD) {
     const sentimentsRef = db.collection('sentiments')
     return sentimentsRef.doc().set({
-      headline,
+      headlinePortuguese,
       headlineEnglish,
       isOnline: true,
       keywords,
-      sentimentMagnitude,
-      sentimentScore,
+      sentimentMagnitudePortuguese: sentimentPortuguese.magnitude,
+      sentimentScorePortuguese: sentimentPortuguese.score,
+      sentimentMagnitudeEnglish: sentimentEnglish.magnitude,
+      sentimentScoreEnglish: sentimentEnglish.score,
       website,
       onlineStartDate: new Date(),
     })
@@ -39,20 +47,20 @@ export const insertSentiment = (
 
 export const updateSentiment = async (
   db: Firestore,
-  headline: string,
+  headlinePortuguese: string,
   website: string,
   env: string
 ): Promise<any> => {
-  logger.log(`Updating sentiment: ${website} | ${headline}`)
+  logger.log(`Updating sentiment: ${website} | ${headlinePortuguese}`)
   const sentimentsRef = db.collection('sentiments')
   const snapshot = await sentimentsRef
     .where('isOnline', '==', true)
     .where('website', '==', website)
-    .where('headline', '==', headline)
+    .where('headlinePortuguese', '==', headlinePortuguese)
     .get()
 
   if (snapshot.empty) {
-    logger.log(`Could not find sentiment: ${website} | ${headline}`)
+    logger.log(`Could not find sentiment: ${website} | ${headlinePortuguese}`)
   }
 
   if (env === Mode.PROD) {

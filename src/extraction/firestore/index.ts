@@ -23,9 +23,9 @@ export const getFirestoreData = async (googleConfig: any) => {
   }))
   const keywords = keywordsSnapshot.docs.map((doc) => doc.data().value)
   const onlineSentiments = sentimentsSnapshot.docs.map((doc) => {
-    const { headline, website } = doc.data()
+    const { headlinePortuguese, website } = doc.data()
     return {
-      headline,
+      headlinePortuguese,
       website,
     }
   })

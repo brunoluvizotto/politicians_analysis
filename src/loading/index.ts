@@ -12,11 +12,11 @@ export const load = async (
     for (const match of analyzedMatch.matches) {
       await insertSentiment(
         db,
-        match.headline,
-        match.translation,
+        match.headlinePortuguese,
+        match.headlineEnglish,
+        match.sentimentPortuguese,
+        match.sentimentEnglish,
         match.keywords,
-        match.sentiment.magnitude,
-        match.sentiment.score,
         analyzedMatch.websiteName,
         env
       )
@@ -26,7 +26,7 @@ export const load = async (
   for (const onlineSentiment of onlineSentiments) {
     await updateSentiment(
       db,
-      onlineSentiment.headline,
+      onlineSentiment.headlinePortuguese,
       onlineSentiment.website,
       env
     )

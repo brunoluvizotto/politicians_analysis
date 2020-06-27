@@ -3,9 +3,13 @@ export interface IWebsiteMatch {
   websiteId: any
   matches: Array<{
     keywords: string[]
-    headline: string
-    translation?: string
-    sentiment?: {
+    headlinePortuguese: string
+    headlineEnglish?: string
+    sentimentEnglish?: {
+      magnitude: number
+      score: number
+    }
+    sentimentPortuguese?: {
       magnitude: number
       score: number
     }
