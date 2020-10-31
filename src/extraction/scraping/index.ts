@@ -138,9 +138,13 @@ export const scrape = async (
         break
       } catch (err) {
         if (i === 3) {
-          throw err
+          websiteMatches.push({
+            websiteName: website.data.name,
+            websiteId: website.id,
+            matches: [],
+          })
         }
-        logger.info(`Fetching ${website}... retry ${i + 1} failed`)
+        logger.info(`Fetching ${website.data.name}... retry ${i + 1} failed`)
       }
     }
   }
