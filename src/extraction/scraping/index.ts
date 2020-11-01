@@ -1,6 +1,6 @@
 import { Page } from 'puppeteer'
 
-import { openConnection } from './connection'
+import { openConnection, closeConnection } from './connection'
 import { logger } from '../../common'
 
 const removeDuplicates = (arr: any[]) => {
@@ -121,7 +121,7 @@ export const scrape = async (
   for (const website of websites) {
     for (let i = 0; i <= 3; i++) {
       try {
-        const { page } = await openConnection()
+        const { page, browser } = await openConnection()
         const match = await scrapeWebsite(
           page,
           website.data.name,
@@ -135,6 +135,7 @@ export const scrape = async (
           websiteId: website.id,
           matches: match,
         })
+        await closeConnection(page, browser)
         break
       } catch (err) {
         if (i === 3) {
